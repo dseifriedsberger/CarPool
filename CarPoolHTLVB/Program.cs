@@ -22,7 +22,7 @@ builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    });
+    }); 
     /*
     .AddIdentityCookies(options =>
     {
