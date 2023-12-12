@@ -1,0 +1,12 @@
+docker run `
+        -p 3306:3306 `
+        -e MYSQL_ROOT_PASSWORD=1234 `
+        -e MYSQL_DATABASE=carpoolhtlvb `
+        mysql
+
+
+//pm console:
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+dotnet add package Pomelo.EntityFrameworkCore.MySql
