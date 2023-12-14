@@ -6,7 +6,7 @@ docker run `
 
 
 //pm console:
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+dotnet ef migrations add InitialCreate --project CarPoolHTLVB
+dotnet ef database update --project CarPoolHTLVB
 
 dotnet add package Pomelo.EntityFrameworkCore.MySql

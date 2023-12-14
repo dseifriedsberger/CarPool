@@ -6,8 +6,13 @@
 
 <PageTitle>Auth</PageTitle>
 
-<h1>You are authenticated</h1>
-
-<AuthorizeView>
-    Hello @context.User.Identity?.Name!
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <h1>Welcome, Admin!</h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>You do not have permission to access this page.</h1>
+    </NotAuthorized>
 </AuthorizeView>
+
+<p>You are authenticated </p>

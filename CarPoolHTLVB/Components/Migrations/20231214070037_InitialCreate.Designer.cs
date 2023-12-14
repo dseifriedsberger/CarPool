@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarPoolHTLVB.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231212223625_InitialCreate")]
+    [Migration("20231214070037_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
