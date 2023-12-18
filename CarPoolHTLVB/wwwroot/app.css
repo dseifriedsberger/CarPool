@@ -15,37 +15,125 @@ h2{
     color:snow;
     font-size: 14px
 }
+h3{
+    color:snow;
+}
+h4{
+    color:dimgray;
+    font-size: 16px;
+}
+a{
+    text-decoration-line: none;
+    font-size: 16px;
+        
+}
+a:hover{
+    color: snow;
+}
 .checkbox{
     color: snow;
 }
-
-
 .button {
-    background: linear-gradient(90deg, rgba(27,127,147,1) 0%, rgba(1,113,184,1) 0%, rgba(27,64,147,1) 100%);
-    font-family: kanit-light;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    width: 200px;
-    height: 40px;
-    margin-bottom: 20px
+    background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    height: 2.5rem;
+    padding: 0 1.6rem;
+    text-align: center;
+    text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+    transition: all .5s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    margin: 10px;
 }
-
+.button:hover {
+    box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+    transition-duration: .1s;
+}
+@media (min-width: 768px) {
+    .button {
+        padding: 0 2.6rem;
+    }
+}
+.button-danger {
+    background: #FF4742;
+    background-image: url('images/closed.png');
+    background-position:center;
+    background-size: cover;
+    background-size: 40%;
+    background-repeat: no-repeat;
+    border: 1px solid #FF4742;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    width: 50px;
+    height:20px;
+}
+    .button-danger:hover,
+    .button-danger:active {
+        color: #FF4742;
+        background-image: url('images/open.png');
+        background-position: center;
+        background-size: cover;
+        background-size: 40%;
+        background-repeat: no-repeat;
+    }
+.button-danger:active {
+    opacity: .5;
+}
 LoginStyle btn .btn-links a{
     color: dimgrey;
 }
-
 .RegisterStyle form-label {
     color: black;
 }
-
-
-/*
-    color: white;
+.col-md-6 p {
+    text-align: center;
+    color: lightgrey;
+}
+strong {
+    color: darkred;
+    text-decoration-line: blink;
+    text-decoration: underline
+}
+.Personal-DataStyle{
+    text-align:center;
+}
+.Personal-DataStyle p {
+    color: lightgray;
+}
+table{
+    text-align: center;
+    width: 100%;
+    margin: 20px;
+}
+.tbody {
+    position:center;
+}
+AuthorizeView {
+    color: snow;
+}
+.col-md-9{
+    position: center;
     
-    text-orientation: upright;
-*/
-
-.btn-links {
-    color: dimgray;
 }
