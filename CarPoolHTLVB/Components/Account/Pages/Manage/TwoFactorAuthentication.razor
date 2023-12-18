@@ -43,23 +43,23 @@
         {
             <form style="display: inline-block" @formname="forget-browser" @onsubmit="OnSubmitForgetBrowserAsync" method="post">
                 <AntiforgeryToken />
-                <button type="submit" class="btn btn-primary">Forget this browser</button>
+                <button type="submit" class="button" role="button">Forget this browser</button>
             </form>
         }
 
-        <a href="Account/Manage/Disable2fa" class="btn btn-primary">Disable 2FA</a>
-        <a href="Account/Manage/GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
+        <a href="Account/Manage/Disable2fa" class="button" role="button">Disable 2FA</a>
+        <a href="Account/Manage/GenerateRecoveryCodes" class="button" role="button">Reset recovery codes</a>
     }
 
-    <h4>Authenticator app</h4>
+    <h2>Authenticator app</h2>
     @if (!hasAuthenticator)
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+        <a  href="Account/Manage/EnableAuthenticator" class="button">Add</a>
     }
     else
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-primary">Set up authenticator app</a>
-        <a href="Account/Manage/ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+        <a href="Account/Manage/EnableAuthenticator" class="button">Set up authenticator app</a>
+        <a href="Account/Manage/ResetAuthenticator" class="button">Reset authenticator app</a>
     }
 }
 else
