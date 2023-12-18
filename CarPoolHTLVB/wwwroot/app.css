@@ -1,5 +1,7 @@
-html, body {
+html, body, header {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #fff;
+    background-image: linear-gradient(180deg, rgb(29, 46, 40) 0%, rgb(20, 69, 47) 70%);
 }
 
 a, .btn-link {

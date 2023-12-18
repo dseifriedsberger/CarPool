@@ -15,36 +15,44 @@ builder.Services.AddRazorComponents()
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
+builder.Services.AddScoped<ApplicationUser>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
 
-builder.Services.AddAuthentication(options => 
+builder.Services.AddAuthentication(options =>
     {
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    }); 
-    /*
-    .AddIdentityCookies(options =>
-    {
-        options.ApplicationCookie.Configure(options => 
-        {
-           options.Cookie.HttpOnly = true;
-            options.ExpireTimeSpan = TimeSpan.FromDays(14);
-            options.LoginPath = "/Account/Login";
-            options.AccessDeniedPath = "/Account/AccessDenied";
-            options.SlidingExpiration = true;
-        });
-    }
-    );
-    */
-var connectionString = builder.Configuration.GetConnectionString("SchuleExtern") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    });
+    
+    //.AddIdentityCookies(options =>
+    //{
+    //    options.ApplicationCookie.Configure(options => 
+    //    {
+    //       options.Cookie.HttpOnly = true;
+    //        options.ExpireTimeSpan = TimeSpan.FromDays(14);
+    //        options.LoginPath = "/Account/Login";
+    //        options.AccessDeniedPath = "/Account/AccessDenied";
+    //        options.SlidingExpiration = true;
+    //    });
+    //}
+    //);
+    
+var connectionString = builder.Configuration.GetConnectionString("SchuleIntern") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+//builder.Services.AddScoped<RideStore>();
+builder.Services.AddTransient(ctx =>
+{
+   return new RideStore(connectionString);
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString,
     ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()

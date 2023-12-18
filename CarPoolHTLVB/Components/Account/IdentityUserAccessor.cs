@@ -7,7 +7,7 @@ namespace CarPoolHTLVB.Components.Account
     {
         public async Task<ApplicationUser> GetRequiredUserAsync(HttpContext context)
         {
-            var user = await userManager.GetUserAsync(context.User);
+            var user = await  userManager.GetUserAsync(context.User);
 
             if (user is null)
             {
