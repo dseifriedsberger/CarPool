@@ -135,5 +135,15 @@ AuthorizeView {
 }
 .col-md-9{
     position: center;
-    
 }
+.WhiteStyleLabel label {
+    color:snow;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
