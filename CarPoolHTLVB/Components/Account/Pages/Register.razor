@@ -19,8 +19,8 @@
 <div class="Headers">
     <h1>Register</h1>
 </div>
-
-<div class="row">
+<center>
+    <div class="textfields">
     <div>
         <StatusMessage Message="@Message" />
         <EditForm Model="Input" class="RegisterStyle" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
@@ -50,7 +50,7 @@
     </div>
 
 </div>
-
+</center>
 @code {
     private IEnumerable<IdentityError>? identityErrors;
 

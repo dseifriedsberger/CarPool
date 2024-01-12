@@ -103,6 +103,9 @@ a:hover{
 LoginStyle btn .btn-links a{
     color: dimgrey;
 }
+.textfields {
+    width: 600px;
+}
 .RegisterStyle form-label {
     color: black;
 }
@@ -200,9 +203,6 @@ AuthorizeView {
 .form-floating mb-3 {
     margin-bottom: 5px;
 }
-.TextboxesStyle {
-    width: 500px;
-}
 .TableStyle {
     width: 400px;
     margin: 5px;
@@ -214,7 +214,12 @@ AuthorizeView {
     margin-top: -10px;
     margin-left: -30px;
 }
-
+.ManageNavBarStyle {
+    width:auto;
+}
+.ManageBodyStyle {
+    width: auto;
+}
 
 
 
