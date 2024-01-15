@@ -38,7 +38,7 @@ builder.Services.AddAuthentication(options =>
     //}
     //);
     
-var connectionString = builder.Configuration.GetConnectionString("SchuleIntern") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("SchuleExtern") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 //builder.Services.AddScoped<RideStore>();
 builder.Services.AddTransient(ctx =>

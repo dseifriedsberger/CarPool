@@ -19,6 +19,7 @@
 <div class="Headers">
     <h1>Register</h1>
 </div>
+<hr class="hrStyle" />
 <center>
     <div class="textfields">
     <div>
@@ -26,7 +27,6 @@
         <EditForm Model="Input" class="RegisterStyle" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
             <h2>Create a new account.</h2>
-            <hr />
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />

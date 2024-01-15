@@ -13,6 +13,7 @@
 <PageTitle>Log in</PageTitle>
 
 <h1>Log in</h1>
+<hr class="hrStyle" />
 <center>
 <div>
     <div class="textfields">
@@ -21,7 +22,6 @@
             <EditForm class="LoginStyle" Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
                 <h2>Use a local account to log in.</h2>
-                <hr />
                 <ValidationSummary class="text-danger" role="alert" />
                 <div class="form-floating mb-3"> 
                     <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />

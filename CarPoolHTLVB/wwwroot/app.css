@@ -106,6 +106,7 @@ LoginStyle btn .btn-links a{
 .textfields {
     width: 600px;
 }
+
 .RegisterStyle form-label {
     color: black;
 }
@@ -114,12 +115,17 @@ LoginStyle btn .btn-links a{
     color: lightgrey;
 }
 strong {
-    color: darkred;
+    color: red;
     text-decoration-line: blink;
-    text-decoration: underline
+    text-decoration: underline;
+    background-color:transparent;
+       
 }
-.Personal-DataStyle{
-    text-align:center;
+.WarningStyle {
+    margin: 30px;
+}
+.Personal-DataStyle {
+    text-align: center;
 }
 .Personal-DataStyle p {
     color: lightgray;
@@ -216,13 +222,41 @@ AuthorizeView {
 }
 .ManageNavBarStyle {
     width:auto;
+    offset-position:center;
 }
 .ManageBodyStyle {
-    width: auto;
+    vertical-align:middle;
+}
+p{
+    color:snow;
+}
+p a {
+    color: snow;
+    text-decoration:underline;
+
+}
+    p a:hover {
+        color: forestgreen;
+    }
+table {
+    height: auto;
+}
+.hrStyle {
+    color: snow;
+    display: flex;
+    text-decoration-thickness: 5px;
 }
 
 
-
-
-
-
+.nav-link {
+    color: snow;
+    font-size: 16px;
+    height: 40px;
+}
+.nav-link:hover {
+    color: forestgreen;
+}
+.nav-link:focus {
+    color: forestgreen;
+    text-decoration: underline;
+}

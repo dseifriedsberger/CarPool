@@ -13,12 +13,12 @@
 @inject IdentityRedirectManager RedirectManager
 
 <PageTitle>Resend email confirmation</PageTitle>
+<center>
 
 <h1>Resend email confirmation</h1>
+<hr / class="hrStyle">
 <h2>Enter your email.</h2>
-<hr />
 <StatusMessage Message="@message" />
-<center>
     <div class="textfields">
         <div>
             <EditForm Model="Input" FormName="resend-email-confirmation" OnValidSubmit="OnValidSubmitAsync" method="post">
