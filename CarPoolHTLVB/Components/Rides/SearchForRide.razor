@@ -1,0 +1,164 @@
+﻿@page "/Rides/SearchForRide"
+@inject AuthenticationStateProvider AuthService
+@using CarPoolHTLVB.Components.Account.Shared
+@using CarPoolHTLVB.Data
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@using CarPoolHTLVB.Components.Account; 
+@rendermode InteractiveServer
+@inject RideStore Store
+@inject ApplicationUser User
+@inject IdentityRedirectManager RedirectManager
+@inject NavigationManager NaviManager
+@attribute [Authorize] 
+ 
+
+<PageTitle>Search For a Ride</PageTitle>
+
+<AuthorizeView Roles="User,Admin">
+    <Authorized>
+        <div class="row">
+            <section> 
+                <EditForm Context="editFormContext" Model="CurrentRideModel" OnValidSubmit="SearchRidesOnValidSubmit" FormName="SearchForRide">
+                    <DataAnnotationsValidator />
+                    <h2>Search for a ride...</h2>
+                    <hr />  
+                    <div class="form-floating mb-3 row">
+                        <div class="col-md-6">
+                            <label>I drive from...</label>
+                            <input class="form-control" id="LocationFrom" @bind=CurrentRideModel.LocationFrom /> 
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3 row">
+                        <div class="col-md-6">
+                            <label>to this destination...</label>
+                            <input class="form-control" id="LocationTo" @bind=CurrentRideModel.LocationTo />
+                        </div> 
+                    </div>
+                    <div class="form-floating mb-3 row">
+                        <div class="col-md-6">
+                            <label>Departure time:</label>
+                            <input type="datetime-local" id="departureTime" @bind="CurrentRideModel.DepartureTime" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3 row">
+                        <div class="col-md-6">
+                            <label>Are smokers welcome on your ride?</label>
+                            <input type="checkbox" id="smoker" @bind="Smoker" />
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3 row">
+                        <div class="col-md-6">
+                            <label>Do you offer your ride for free?</label>
+                            <input type="checkbox" id="isFree" @bind="IsFree" />
+                        </div>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <div class="col-md-6">
+                            <button type="submit" class="w-100 btn btn-lg btn-primary">Search For Rides</button>
+                        </div>
+                    </div>
+                </EditForm>
+            </section>
+        </div> 
+        @if (buttonclicked)@*(Store.Rides.Count != 0)*@
+        {
+            <hr />
+            <h3>Hey @curUser, look through all available rides...</h3>
+            <div>
+                <div class="container">                         <button @onclick="MoveLeft">⇐</button>
+                        <div class="text-container-small" style="color: @textColors[0]">
+                            <pre>@texts[0]</pre>
+                        </div>
+                        <div class="text-container-large" style="color: @textColors[1]">
+                            <pre>@texts[1]</pre>
+                            <button class="request-button" @onclick="Request">Request for this ride</button>
+                        </div>
+                        <div class="text-container-small" style="color: @textColors[2]">
+                            <pre>@texts[2]</pre>
+                        </div>
+                        <button class="request-button" @onclick="MoveRight">⇒</button>
+                  
+                </div>  
+            </div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You must be logged in to offer a ride.</p>
+    </NotAuthorized>
+</AuthorizeView> 
+@code {
+    private string? errorMessage;  
+    private SearchForRideModel CurrentRideModel = new SearchForRideModel();
+    public bool Smoker { get; set; } = false;
+
+    public bool IsFree { get; set; } = true;
+    private string[] texts = { $"Join on his ride\nto Vöcklabruck on \n20.01.2024 at 06:00 o'clock", "Join David on his ride\nto Salzburg on \n21.01.2024 at 15:00 o'clock", "Join Max on his ride\nto Linz on \n22.01.2024 at 12:00 o'clock" };
+    private string[] textColors = { "black", "black", "black" }; 
+    private string curUser { get; set; }
+
+    private bool buttonclicked { get; set; } = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        curUser = authState.User.Identity.Name.ToString();
+    }
+    private void MoveRight()
+    {
+        // Shift text and colors to the right
+        string tempText = texts[texts.Length - 1];
+        string tempColor = textColors[textColors.Length - 1]; 
+
+        for (int i = texts.Length - 1; i > 0; i--)
+        {
+            texts[i] = texts[i - 1];
+            textColors[i] = textColors[i - 1]; 
+        }
+
+        texts[0] = tempText;
+        textColors[0] = tempColor; 
+    }
+
+    private void MoveLeft()
+    {
+        // Shift text and colors to the left
+        string tempText = texts[0];
+        string tempColor = textColors[0]; 
+
+        for (int i = 0; i < texts.Length - 1; i++)
+        {
+            texts[i] = texts[i + 1];
+            textColors[i] = textColors[i + 1]; 
+        }
+
+        texts[texts.Length - 1] = tempText;
+        textColors[textColors.Length - 1] = tempColor; 
+    }
+
+    private void Request()
+    { 
+        Console.WriteLine("Request button clicked!");
+    }
+    private void SearchRidesOnValidSubmit()
+    {
+        buttonclicked = true;
+        if (Store.GetRides(CurrentRideModel))
+        { 
+        }
+    }
+    public class SearchForRideModel
+    {
+        public string? LocationFrom { get; set; } 
+        public string? LocationTo { get; set; } 
+        public DateTime DepartureTime { get; set; } = DateTime.Now; 
+        public string Smoker { get; set; } = "false"; 
+        public string IsFree { get; set; } = "true";
+
+    }
+     
+}
+
