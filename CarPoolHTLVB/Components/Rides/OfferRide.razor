@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
-@using CarPoolHTLVB.Components.Account; 
+@using CarPoolHTLVB.Components.Account;
 @rendermode InteractiveServer
 @inject RideStore Store
 @inject ApplicationUser User
@@ -16,125 +16,168 @@
 <PageTitle>Offer a Ride</PageTitle>
 
 <AuthorizeView Roles="User,Admin">
-    <Authorized>
-        <div class="row">
-            <section> 
-                <EditForm Context="editFormContext" Model="CurrentRideModel" OnValidSubmit="TryStoreRideOnValidSubmit" FormName="offerride">
-                    <DataAnnotationsValidator />
-                    <h2>Prepare your ride...</h2>
-                    <hr /> 
-                    @*<Validatio class="text-danger" role="alert" />*@
-                    <!-- For ClassmatesCanJoin -->
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>I drive from...</label>
-                            <input class="form-control" id="LocationFrom" @bind=CurrentRideModel.LocationFrom />
-                            @*<ValidationMessage For> </ValidationMessage>*@
-                        </div>
-                    </div> 
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>to this destination...</label>
-                            <input class="form-control" id="LocationTo" @bind=CurrentRideModel.LocationTo />
+	<Authorized>
+		<div>
+			<section>
+				<EditForm Context="editFormContext" Model="CurrentRideModel" OnValidSubmit="TryStoreRideOnValidSubmit" FormName="offerride">
+					<DataAnnotationsValidator />
+					<h1>Prepare your ride...</h1>
+					<hr class="hrStyle" />
+					<ValidationSummary class="text-danger" role="alert" />
+					<center>
+						<div class="textfields">
+							<!-- For ClassmatesCanJoin -->
+							<div>
+								<div class="form-floating mb-3">
+									<InputText @bind-Value="CurrentRideModel.LocationFrom" class="form-control" placeholder="I drive from..." />
+									<label for="CurrentRideModel.LocationFrom" class="form-label">I drive from...</label>
+									<ValidationMessage For="() => CurrentRideModel.LocationFrom" class="text-danger" />
+								</div>
+							</div>
+							<!-- For ClassmatesCanJoin -->
+							<div>
+								<div class="form-floating mb-3">
+									<InputText @bind-Value="CurrentRideModel.LocationTo" class="form-control" placeholder="I drive from..." />
+									<label for="CurrentRideModel.LocationTo" class="form-label">to this destination...</label>
+									<ValidationMessage For="() => CurrentRideModel.LocationTo" class="text-danger" />
+								</div>
+							</div>
+							<!-- For DepartureTime -->
+							<div>
+								<div class="form-floating mb-3">
+									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="CurrentRideModel.DepartureTime" class="form-control" placeholder="Departure time" />
+									<label class="form-label">to this destination...</label>
+									<ValidationMessage For="() => CurrentRideModel.DepartureTime" class="text-danger" />
+								</div>
+							</div>
 
-                        </div>
-                    </div> 
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Departure time:</label>
-                            <input type="datetime-local" id="departureTime" @bind="CurrentRideModel.DepartureTime" class="form-control" />
-                        </div>
-                    </div> 
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Arrival time:</label>
-                            <input type="datetime-local" id="arrivalTime" @bind="CurrentRideModel.ArrivalTime" class="form-control" />
-                        </div>
-                    </div> 
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Classmates are welcome...</label>
-                            <input type="checkbox" id="ClassmatesCanJoin" @bind="ClassmatesCanJoin" />
-
-                        </div>
-                    </div> 
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Teachers are welcome...</label>
-                            <input type="checkbox" id="TeachersCanJoin" @bind="TeachersCanJoin" />
-                        </div>
-                    </div> 
-                    <div class="form-floating mb-3">
-                        <div class="col-md-6">
-                            <label>Enter villages that get passed:</label>
-                            <input rows="1" id="villagesPassed" @bind="CurrentRideModel.VillagesPassed" class="form-control" placeholder="village1, village2" />
-                        </div>
-                    </div> 
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>How many seats?</label>
-                            <input type="number" id="seats" @bind="CurrentRideModel.Seats" class="form-control" required />
-                        </div>
-                    </div>
-                     
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Are smokers welcome on your ride?</label>
-                            <input type="checkbox" id="smoker" @bind="Smoker" />
-                        </div>
-                    </div>
-                     
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Do you offer your ride for free?</label>
-                            <input type="checkbox" id="isFree" @bind="IsFree" />
-                        </div>
-                    </div>
-                     
-                    <div class="form-floating mb-3">
-                        <div class="col-md-6">
-                            <label>Choose the frequency of your ride</label>
-                            <select id="frequency" @bind="CurrentRideModel.Frequency" class="form-select">
-                                <option value="Daily">Daily</option>
-                                <option value="Weekly">Weekly</option>
-                                <option value="Monthly">Monthly</option>
-                                <option value="OnlyOnce">Only Once</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <div class="col-md-6">
-                            <button type="submit" class="w-100 btn btn-lg btn-primary">Offer ride</button>
-                        </div>
-                    </div>
-                </EditForm>
-            </section>
-        </div>
-    </Authorized>
-    <NotAuthorized>
-        <p>You must be logged in to offer a ride.</p>
-    </NotAuthorized>
+							<!-- For ArrivalTime -->
+							<div>
+								<div class="form-floating mb-3">
+									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="CurrentRideModel.ArrivalTime" class="form-control" placeholder="Arrival time" />
+									<label>Arrival time</label>
+									<ValidationMessage For="() => CurrentRideModel.ArrivalTime" class="text-danger" />
+								</div>
+							</div>
+							<!-- For VillagesPassed -->
+							<div>
+								<div class="form-floating mb-3">
+									<InputText @bind-Value="CurrentRideModel.VillagesPassed" class="form-control" placeholder="Enter villages that get passed:" />
+									<label class="form-label">Enter villages that get passed:</label>
+									<ValidationMessage For="() => CurrentRideModel.VillagesPassed" class="text-danger" />
+								</div>
+							</div>
+							<!-- For Seats -->
+							<div>
+								<div class="form-floating mb-3">
+									<InputNumber @bind-Value="CurrentRideModel.Seats" class="form-control" placeholder="How many seats" />
+									<label class="form-label">How many seats</label>
+									<ValidationMessage For="() => CurrentRideModel.Seats" class="text-danger" />
+								</div>
+								<!-- For Frequency -->
+								<div>
+									<div class="form-floating mb-3">
+										<select id="frequency" @bind="CurrentRideModel.Frequency" class="form-select">
+											<option value="Daily">Daily</option>
+											<option value="Weekly">Weekly</option>
+											<option value="Monthly">Monthly</option>
+											<option value="OnlyOnce">Only Once</option>
+										</select>
+										<label class="form-label">Choose the frequency of your ride</label>
+										<ValidationMessage For="() => CurrentRideModel.Frequency" class="text-danger" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</center>
+					<center>
+					<table class="TableStyle">
+						<tr>
+							<th>
+								<!-- For ClassmatesCanJoin -->
+								<div class="CheckTitelStyle">
+									<div class="checkbox-wrapper-2">
+										<div>
+											<a>Classmates are welcome</a>
+										</div>
+										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+									</div>
+								</div>
+							</th>
+							<th>
+								<!-- For TeachersCanJoin -->
+								<div class="CheckTitelStyle">
+									<div class="checkbox-wrapper-2">
+										<div>
+											<a>Teachers are welcome</a>
+										</div>
+										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+									</div>
+								</div>
+							</th>
+						</tr>
+					</table>
+					</center>
+					<center>
+					<table class="TableStyle2">
+						<tr>
+							<th>
+								<!-- For Smoker -->
+								<div class="CheckTitelStyle">
+									<div class="checkbox-wrapper-2">
+										<div>
+											<a>Smokers are Welcome</a>
+										</div>
+										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+									</div>
+								</div>
+							</th>
+							<th>
+								<!-- For IsFree -->
+								<div class="CheckTitelStyle">
+									<div class="checkbox-wrapper-2">
+										<div>
+											<a>Is the ride free</a>
+										</div>
+										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+									</div>
+								</div>
+							</th>
+						</tr>
+					</table>
+					</center>
+					<div class="form-floating mb-3">
+						<div class="form-floating mb-3">
+							<button type="submit" class="button" role="button">Offer Ride</button>
+						</div>
+					</div>
+				</EditForm>
+			</section>
+		</div>
+	</Authorized>
+	<NotAuthorized>
+		<p>You must be logged in to offer a ride.</p>
+	</NotAuthorized>
 </AuthorizeView>
 
 @code {
-    private string? errorMessage;
-    private bool ClassmatesCanJoin { get; set; } = true;
-    public bool TeachersCanJoin { get; set; } = true;
+	private string? errorMessage;
+	private bool ClassmatesCanJoin { get; set; } = true;
+	public bool TeachersCanJoin { get; set; } = true;
 
-    public bool Smoker { get; set; } = false;
+	public bool Smoker { get; set; } = false;
 
     public bool IsFree { get; set; } = true; 
 
     private OfferRideModel CurrentRideModel = new OfferRideModel();
 
-    private void TryStoreRideOnValidSubmit()
-    {
-        CurrentRideModel.OffererID = User.Id;
-        if (!ClassmatesCanJoin) CurrentRideModel.ClassmatesCanJoin = "false";
-        if (!TeachersCanJoin) CurrentRideModel.TeachersCanJoin = "false";
-        if (!IsFree) CurrentRideModel.IsFree = "false";
-        if (Smoker) CurrentRideModel.Smoker = "true";
+	private void TryStoreRideOnValidSubmit()
+	{
+		CurrentRideModel.OffererID = User.Id;
+		if (!ClassmatesCanJoin) CurrentRideModel.ClassmatesCanJoin = "false";
+		if (!TeachersCanJoin) CurrentRideModel.TeachersCanJoin = "false";
+		if (!IsFree) CurrentRideModel.IsFree = "false";
+		if (Smoker) CurrentRideModel.Smoker = "true";
 
         //Fix: Ride.properties = null
         if (Store.SaveRide(CurrentRideModel))
@@ -143,11 +186,11 @@
             // oder redirecten zu MyOfferedRides oder sowos
             NaviManager.NavigateTo("/Counter");
 
-        }
-        else
-        {
-
-        }
+		}
+		else
+		{
+			NaviManager.NavigateTo("/Weahter");
+		}
 
     }
     public class OfferRideModel
@@ -159,19 +202,19 @@
         [Required] 
         public string? LocationTo { get; set; }
 
-        public DateTime DepartureTime { get; set; } = DateTime.Now;
+		public DateTime DepartureTime { get; set; } = DateTime.Now;
 
         public DateTime ArrivalTime { get; set; } = DateTime.Now;
 
         public string? VillagesPassed { get; set; } 
 
-        public string ClassmatesCanJoin { get; set; } = "true"; 
+		public string ClassmatesCanJoin { get; set; } = "true";
 
-        public string TeachersCanJoin { get; set; } = "true";
+		public string TeachersCanJoin { get; set; } = "true";
 
-        public int Seats { get; set; }
+		public int Seats { get; set; }
 
-        public string Smoker { get; set; } = "false";
+		public string Smoker { get; set; } = "false";
 
         public string IsFree { get; set; } = "true"; 
         [Required] 

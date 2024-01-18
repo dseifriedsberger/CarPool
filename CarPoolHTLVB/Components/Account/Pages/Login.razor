@@ -13,16 +13,17 @@
 <PageTitle>Log in</PageTitle>
 
 <h1>Log in</h1>
+<hr class="hrStyle" />
+<center>
 <div>
-    <div>
-        <section class="textfields">
+    <div class="textfields">
+        <section >
             <StatusMessage Message="@errorMessage" />
             <EditForm class="LoginStyle" Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
                 <h2>Use a local account to log in.</h2>
-                <hr />
                 <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-3"> 
                     <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                     <label for="email" class="form-label">Email</label>
                     <ValidationMessage For="() => Input.Email" class="text-danger" />
@@ -56,6 +57,7 @@
         </section>
     </div>
 </div>
+</center>
 
 @code {
     private string? errorMessage;

@@ -13,9 +13,9 @@
 
 <h3>Profile</h3>
 <StatusMessage />
-
-<div class="row">
-    <div class="col-md-8">
+<center>
+<div class="textfields">
+    <div>
         <EditForm class="ManageAccStyle" Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert" />
@@ -32,7 +32,7 @@
         </EditForm>
     </div>
 </div>
-
+</center>
 @code {
     private ApplicationUser user = default!;
     private string? username;

@@ -25,7 +25,6 @@ h4{
 a{
     text-decoration-line: none;
     font-size: 16px;
-        
 }
 a:hover{
     color: snow;
@@ -104,6 +103,10 @@ a:hover{
 LoginStyle btn .btn-links a{
     color: dimgrey;
 }
+.textfields {
+    width: 600px;
+}
+
 .RegisterStyle form-label {
     color: black;
 }
@@ -112,12 +115,17 @@ LoginStyle btn .btn-links a{
     color: lightgrey;
 }
 strong {
-    color: darkred;
+    color: red;
     text-decoration-line: blink;
-    text-decoration: underline
+    text-decoration: underline;
+    background-color:transparent;
+       
 }
-.Personal-DataStyle{
-    text-align:center;
+.WarningStyle {
+    margin: 30px;
+}
+.Personal-DataStyle {
+    text-align: center;
 }
 .Personal-DataStyle p {
     color: lightgray;
@@ -135,5 +143,120 @@ AuthorizeView {
 }
 .col-md-9{
     position: center;
-    
+}
+.WhiteStyleLabel label {
+    color:snow;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.CheckTitelStyle {
+    color: snow;
+}
+
+.checkbox-wrapper-2 .ikxBAC {
+    appearance: none;
+    background-color: #dfe1e4;
+    border-radius: 72px;
+    border-style: none;
+    flex-shrink: 0;
+    height: 20px;
+    margin-bottom: 12px;
+    position: relative;
+    width: 30px;
+}
+.checkbox-wrapper-2 .ikxBAC::before {
+    bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+}
+.checkbox-wrapper-2 .ikxBAC,
+.checkbox-wrapper-2 .ikxBAC::after {
+    transition: all 100ms ease-out;
+}
+    .checkbox-wrapper-2 .ikxBAC::after {
+        background-color: #fff;
+        border-radius: 50%;
+        content: "";
+        height: 14px;
+        left: 3px;
+        position: absolute;
+        top: 3px;
+        width: 14px;
+    }
+.checkbox-wrapper-2 input[type=checkbox] {
+    cursor: default;
+}
+.checkbox-wrapper-2 .ikxBAC:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
+}
+.checkbox-wrapper-2 .ikxBAC:checked {
+    background-color: forestgreen;
+}
+    .checkbox-wrapper-2 .ikxBAC:checked::after {
+        background-color: #fff;
+        left: 13px;
+    }
+.checkbox-wrapper-2 :focus:not(.focus-visible) {
+    outline: 0;
+}
+.checkbox-wrapper-2 .ikxBAC:checked:hover {
+    background-color: green;
+}
+.form-floating mb-3 {
+    margin-bottom: 5px;
+}
+.TableStyle {
+    width: 400px;
+    margin: 5px;
+    margin-left: -5px;
+}
+.TableStyle2 {
+    width: 400px;
+    margin: 10px;
+    margin-top: -10px;
+    margin-left: -30px;
+}
+.ManageNavBarStyle {
+    width:auto;
+    offset-position:center;
+}
+.ManageBodyStyle {
+    vertical-align:middle;
+}
+p{
+    color:snow;
+}
+p a {
+    color: snow;
+    text-decoration:underline;
+
+}
+    p a:hover {
+        color: forestgreen;
+    }
+table {
+    height: auto;
+}
+.hrStyle {
+    color: snow;
+    display: flex;
+    text-decoration-thickness: 5px;
+}
+
+
+.nav-link {
+    color: snow;
+    font-size: 16px;
+    height: 40px;
+}
+.nav-link:hover {
+    color: forestgreen;
+}
+.nav-link:focus {
+    color: forestgreen;
+    text-decoration: underline;
 }

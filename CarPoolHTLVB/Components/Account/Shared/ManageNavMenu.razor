@@ -3,7 +3,7 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 
-    <table >
+    <table>
         <tr>
             <th>
                 <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
@@ -21,9 +21,13 @@
                     <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
                 </th>
             }
+        <AuthorizeView Roles="Admin">
+	        <Authorized>
             <th>
                 <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">Two-factor authentication</NavLink>
             </th>
+            </Authorized>
+        </AuthorizeView>
             <th>
                 <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
             </th>
