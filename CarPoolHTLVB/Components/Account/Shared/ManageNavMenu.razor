@@ -3,47 +3,39 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 <body>
-    <nav class="ManageAccStyle">
-        <ul>
-        <li><a href="Account/Manage">Profile</a></li>
-        <li><a href="Account/Manage/Email">Email</a></li>
-        <li><a href="Account/Manage/ChangePassword">Password</a></li>
-        @if (hasExternalLogins)
-        {
-            <li><a href="Account/Manage/ExternalLogins">External logins</a></li>           
-        }
-        <tr>
-            <th>
-                <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
-            </th>
-            <th>
-                <NavLink class="nav-link" href="Account/Manage/Email">Email</NavLink>
-            </th>
-            <th>
-                <NavLink class="nav-link" href="Account/Manage/ChangePassword">Password</NavLink>
-            </th>
     
-            @if (hasExternalLogins)
-            {
+        <table class="ManageAccStyle">
+            <tr>
                 <th>
-                    <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
+                    <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
                 </th>
-            }
-        <AuthorizeView Roles="Admin">
-	        <Authorized>
-             <th>
-                <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">Two-factor authentication</NavLink>
-            </th>
-         </ul>
-    </nav>
+                <th>
+                    <NavLink class="nav-link" href="Account/Manage/Email">Email</NavLink>
+                </th>
+                <th>
+                    <NavLink class="nav-link" href="Account/Manage/ChangePassword">Password</NavLink>
+                </th>
+
+                @if (hasExternalLogins)
+                {
+                    <th>
+                        <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
+                    </th>
+                }
+                <AuthorizeView Roles="Admin">
+                    <Authorized>
+                        <th>
+                            <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">Two-factor authentication</NavLink>
+                        </th>
+                    </Authorized>
+                </AuthorizeView>
+                <th>
+                    <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
+                </th>
+            </tr>
+        </table>
 </body>
-            </Authorized>
-        </AuthorizeView>
-            <th>
-                <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
-            </th>
-        </tr>
-    </table>
+
 @code {
     private bool hasExternalLogins;
 
