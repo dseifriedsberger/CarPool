@@ -4,20 +4,21 @@
 @using Microsoft.AspNetCore.Authorization
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
-@using CarPoolHTLVB.Components.Account;
+@using CarPoolHTLVB.Components.Account; 
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
 @rendermode InteractiveServer
 @inject RideStore Store
-@inject ApplicationUser User
+@inject ApplicationUser User;
 @inject IdentityRedirectManager RedirectManager
-@inject NavigationManager NaviManager
+@inject NavigationManager NaviManager;
 @attribute [Authorize] 
  
 
 <PageTitle>Offer a Ride</PageTitle>
 
 <AuthorizeView Roles="User,Admin">
-	<Authorized>
-		<div>
+    <Authorized>
+        <div>
 			<section>
 				<EditForm Context="editFormContext" Model="CurrentRideModel" OnValidSubmit="TryStoreRideOnValidSubmit" FormName="offerride">
 					<DataAnnotationsValidator />
