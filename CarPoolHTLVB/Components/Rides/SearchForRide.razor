@@ -22,65 +22,88 @@
             <section> 
                 <EditForm Context="editFormContext" Model="CurrentRideModel" OnValidSubmit="SearchRidesOnValidSubmit" FormName="SearchForRide">
                     <DataAnnotationsValidator />
-                    <h2>Search for a ride...</h2>
-                    <hr />  
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>I drive from...</label>
-                            <input class="form-control" id="LocationFrom" @bind=CurrentRideModel.LocationFrom /> 
-                        </div>
-                    </div>
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>to this destination...</label>
-                            <input class="form-control" id="LocationTo" @bind=CurrentRideModel.LocationTo />
-                        </div> 
-                    </div>
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Departure time:</label>
-                            <input type="datetime-local" id="departureTime" @bind="CurrentRideModel.DepartureTime" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Are smokers welcome on your ride?</label>
-                            <input type="checkbox" id="smoker" @bind="Smoker" />
-                        </div>
-                    </div>
-
-                    <div class="form-floating mb-3 row">
-                        <div class="col-md-6">
-                            <label>Do you offer your ride for free?</label>
-                            <input type="checkbox" id="isFree" @bind="IsFree" />
-                        </div>
-                    </div>
-
+                    <h1>Search for a ride...</h1>
+                    <hr class="hrStyle"/> 
+                    <center>
+                        <div class="textfields">
                     <div class="form-floating mb-3">
-                        <div class="col-md-6">
-                            <button type="submit" class="w-100 btn btn-lg btn-primary">Search For Rides</button>
+                        <InputText @bind-Value="CurrentRideModel.LocationFrom" class="form-control" placeholder="I drive from..." />
+                        <label for="CurrentRideModel.LocationFrom" class="form-label">I drive from...</label>
+                        <ValidationMessage For="() => CurrentRideModel.LocationFrom" class="text-danger" />
+                    </div>
+                    <div>
+                        <div class="form-floating mb-3">
+                            <InputText @bind-Value="CurrentRideModel.LocationTo" class="form-control" placeholder="I drive from..." />
+                            <label for="CurrentRideModel.LocationTo" class="form-label">to this destination...</label>
+                            <ValidationMessage For="() => CurrentRideModel.LocationTo" class="text-danger" />
                         </div>
                     </div>
+                    <div>
+                        <div class="form-floating mb-3">
+                            <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="CurrentRideModel.DepartureTime" class="form-control" placeholder="Departure time" />
+                            <label class="form-label">to this destination...</label>
+                            <ValidationMessage For="() => CurrentRideModel.DepartureTime" class="text-danger" />
+                        </div>
+                    </div>
+                        </div>
+                    </center>
+                    <center>
+                    <table class="TableStyle">
+                        <tr>
+							<th>
+                                <div class="CheckTitelStyle">
+                                    <div class="checkbox-wrapper-2">
+                                        <div>
+                                            <a>Smokers are Welcome</a>
+                                        </div>
+                                        <input type="checkbox" class="sc-gJwTLC ikxBAC">
+                                    </div>
+                                </div>
+                                </th>
+                                <th>
+                                <div class="CheckTitelStyle">
+                                    <div class="checkbox-wrapper-2">
+                                        <div>
+                                            <a>Is the ride free</a>
+                                        </div>
+                                        <input type="checkbox" class="sc-gJwTLC ikxBAC">
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                    </center>
+                    <div class="form-floating mb-3">
+                        <div class="form-floating mb-3">
+                            <button type="submit" class="button" role="button">Offer Ride</button>
+                        </div>
+                    </div>
+
                 </EditForm>
             </section>
         </div> 
-        @if (buttonclicked)@*(Store.Rides.Count != 0)*@
+        @if (buttonclicked)@*(Store.Rides.Count != 0)*@ 
         {
+            
             <hr />
-            <h3>Hey @curUser, look through all available rides...</h3>
+            <h3>Hey <a class="curUser">@curUser</a>, look through all available rides...</h3>
             <div>
-                <div class="container">                         <button @onclick="MoveLeft">⇐</button>
+                <div class="container">
+                    <button class="button-arrow" @onclick="MoveLeft">◄</button>
                         <div class="text-container-small" style="color: @textColors[0]">
+                            <div style="height:50px"></div>
                             <pre>@texts[0]</pre>
                         </div>
                         <div class="text-container-large" style="color: @textColors[1]">
+                        <div style="height:100px"></div>
                             <pre>@texts[1]</pre>
                             <button class="request-button" @onclick="Request">Request for this ride</button>
                         </div>
                         <div class="text-container-small" style="color: @textColors[2]">
+                            <div style="height:50px"></div>
                             <pre>@texts[2]</pre>
                         </div>
-                        <button class="request-button" @onclick="MoveRight">⇒</button>
+                    <button class="button-arrow" @onclick="MoveRight">►</button>
                   
                 </div>  
             </div>
@@ -100,12 +123,16 @@
     private string[] textColors = { "black", "black", "black" }; 
     private string curUser { get; set; }
 
+
     private bool buttonclicked { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthService.GetAuthenticationStateAsync();
-        curUser = authState.User.Identity.Name.ToString();
+        string[] userString = authState.User.Identity.Name.Split("@");
+        curUser = userString[0].Replace('.',' ').ToString();
+
+
     }
     private void MoveRight()
     {

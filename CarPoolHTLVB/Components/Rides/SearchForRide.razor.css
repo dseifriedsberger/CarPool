@@ -1,14 +1,21 @@
-﻿.container {
+﻿@font-face {
+    font-family: 'kanit-light';
+    src: url('fonts/kanit-light.ttf') format('truetype');
+}
+
+.container {
+    font-family: kanit-light;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100vh;  
+    height: 100vh;
     border-radius: 15px; /* Adjust the radius as needed */
     padding: 20px;
     color: #ffffff;
 }
 
 .text-container {
+    font-family: kanit-light;
     margin: 10px;
     padding: 20px;
     border: 2px solid #ccc;
@@ -17,27 +24,34 @@
 
 .text-container-small {
     font-size: 16px;
+    width: 400px;
+    height: 150px;
+    margin: 10px;
     line-height: 1;
     border-radius: 15px;
     background-color: #ffffff;
 }
+    .text-container-small pre {
+        font-family: kanit-light;
+        overflow: hidden;
+    }
 
 .text-container-large {
     font-size: 26px;
     line-height: 2;
     border-radius: 15px;
+    height: 50%;
+    width: 750px;
     background-color: #ffffff;
 }
 
-.request-button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .text-container-large pre {
+        font-family: kanit-light;
+        text-align: center;
+        vertical-align: central;
+        overflow: hidden;
+    }
+
 .rounded-box {
     width: 200px;
     height: 100px;
@@ -45,4 +59,52 @@
     border-radius: 15px; /* Adjust the radius as needed */
     padding: 20px;
     color: #ffffff;
+}
+
+.request-button {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.request-button:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+    .request-button {
+        padding: 10px 30px;
+    }
+}
+
+.button-arrow {
+   background-color: snow;
+   border: hidden;
+   border-radius:8px;
+}
+
+.button-arrow:hover {
+    opacity: .75;
+}
+
+.curUser {
+    text-decoration: underline;
+    color: snow;
+    font-size: 28px;
 }

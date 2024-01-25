@@ -193,7 +193,7 @@ AuthorizeView {
     cursor: default;
 }
 .checkbox-wrapper-2 .ikxBAC:hover {
-    background-color: #c9cbcd;
+    background-color: seagreen;
     transition-duration: 0s;
 }
 .checkbox-wrapper-2 .ikxBAC:checked {
