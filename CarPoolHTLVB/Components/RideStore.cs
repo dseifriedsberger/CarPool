@@ -10,7 +10,7 @@ namespace CarPoolHTLVB.Components
     
     public class RideStore
     {
-        public List<OfferRideModel> Rides = new();
+        public List<RideModel> Rides = new();
         private string ConnString { get; set; }
         public RideStore(string connStrg)
         {
@@ -36,7 +36,7 @@ namespace CarPoolHTLVB.Components
             finally { connection.Close(); }
             return id;
         }
-        public bool SaveRide(OfferRideModel model)
+        public bool SaveRide(RideModel model)
         {
             int newRideId = GetLastRideID() + 10;
             if(newRideId == 9) { newRideId = 10; }
@@ -81,7 +81,7 @@ namespace CarPoolHTLVB.Components
             string sql = "SELECT id, arrivaltime, ... FROM rides WHERE ... ORDER BY...";
             try
             {
-                Rides= connection.Query<OfferRideModel>(sql).ToList();
+                Rides= connection.Query<RideModel>(sql).ToList();
                 return true;
             }
             catch(Exception ex) { Console.WriteLine(ex.Message); return false; }
