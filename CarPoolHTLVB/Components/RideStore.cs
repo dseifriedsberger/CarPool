@@ -23,7 +23,7 @@ namespace CarPoolHTLVB.Components
             try
             {
                 connection.Open();
-                string sql = "SELECT Min(rideid) AS 'rideid' FROM rides";
+                string sql = "SELECT Max(rideid) AS 'rideid' FROM rides";
                 MySqlCommand cmd = new(sql, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -40,7 +40,11 @@ namespace CarPoolHTLVB.Components
         {
             int newRideId = GetLastRideID() + 10;
             if(newRideId == 9) { newRideId = 10; }
-            string sql = $"INSERT INTO rides VALUES('{newRideId}','{model.OffererID}', '{model.LocationFrom}', '{model.LocationTo}','{model.DepartureTime}','{model.ArrivalTime}','{model.VillagesPassed}', '{model.ClassmatesCanJoin}','{model.TeachersCanJoin}', {model.Seats}, '{model.Smoker}','{model.IsFree}','{model.Frequency}')";
+            if (model.Frequency == null)
+            {
+                model.Frequency = "Daily";
+            }
+            string sql = $"INSERT INTO rides (RideId, OffererId, LocationFrom, LocationTo, DepartureTime, ArrivalTime,VillagesPassed,ClassmatesCanJoin,TeachersCanJoin,FreeSeats,Smoker,IsFree,Frequency) VALUES('{newRideId}','{model.OffererID}', '{model.LocationFrom}', '{model.LocationTo}','{model.DepartureTime}','{model.ArrivalTime}','{model.VillagesPassed}', '{model.ClassmatesCanJoin}','{model.TeachersCanJoin}', {model.Seats}, '{model.Smoker}','{model.IsFree}','{model.Frequency}')";
          
             Console.WriteLine($"tried this cmd:{sql}");
             MySqlConnection connection = new MySqlConnection(ConnString);
@@ -78,7 +82,15 @@ namespace CarPoolHTLVB.Components
         public bool GetRides(SearchForRideModel model)
         {
             using MySqlConnection connection = new(ConnString);
-            string sql = "SELECT id, arrivaltime, ... FROM rides WHERE ... ORDER BY...";
+            string sql = $"SELECT id, arrivaltime, ... FROM rides WHERE LOCATE('{model.LocationFrom}', VillagesPassed) ORDER BY...";
+            Console.WriteLine($"tried this cmd:{sql}");
+
+//            SELECT RideId, Arrivaltime, LocationFrom, LocationTo, DepartureTime FROM rides
+//              WHERE LOCATE('Pfaffing', VillagesPassed) And
+//              IsFree = "true" AND
+//              Smoker = "false" AND
+//              BETWEEN
+
             try
             {
                 Rides= connection.Query<RideModel>(sql).ToList();

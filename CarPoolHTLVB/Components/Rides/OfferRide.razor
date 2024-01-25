@@ -48,7 +48,7 @@
 							<div>
 								<div class="form-floating mb-3">
 									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="CurrentRideModel.DepartureTime" class="form-control" placeholder="Departure time" />
-									<label class="form-label">to this destination...</label>
+									<label class="form-label">DepartureTime</label>
 									<ValidationMessage For="() => CurrentRideModel.DepartureTime" class="text-danger" />
 								</div>
 							</div>
@@ -186,12 +186,12 @@
 		{
 			// Fix: wirft exception
 
-			NaviManager.NavigateTo("/Counter");
+			NaviManager.NavigateTo("/Rides/SearchForRide");
 
 		}
 		else
 		{
-			NaviManager.NavigateTo("/Weahter");
+			NaviManager.NavigateTo("/Rides/OfferRide");
 		}
 
 	}

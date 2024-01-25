@@ -88,23 +88,23 @@
         @if (buttonclicked)@*(Store.Rides.Count != 0)*@
         {
             <hr class="hrStyle"/>
-            <h3>Hey @curUser, look through all available rides...</h3>
+            <h1>Hey @curUser, look through all available rides...</h1>
             <div>
                 <div class="container">
-                    <button class="switch-Button" @onclick="MoveLeft">⇚</button>
+                    <button class="switch-button" @onclick="MoveLeft">⇚</button>
                         <div class="text-container-small" style="color: @textColors[0]">
                             <pre>@texts[0]</pre>
                         </div>
                         <div class="text-container-large" style="color: @textColors[1]">
                             <pre>@texts[1]</pre>
-                        <button>
-                            <a href="#"><span>Request a Ride</span></a>
+                        <button class="request-button">
+                            Request a Ride
                         </button>
                     </div>
                         <div class="text-container-small" style="color: @textColors[2]">
                             <pre>@texts[2]</pre>
                         </div>
-                    <button class="switch-Button" @onclick="MoveRight">⇛</button>
+                    <button class="switch-button" @onclick="MoveRight">⇛</button>
                 </div>  
             </div>
         }
@@ -122,7 +122,7 @@
     private string[] texts = { $"Join on his ride\nto Vöcklabruck on \n20.01.2024 at 06:00 o'clock", "Join David on his ride\nto Salzburg on \n21.01.2024 at 15:00 o'clock", "Join Max on his ride\nto Linz on \n22.01.2024 at 12:00 o'clock" };
     private string[] textColors = { "black", "black", "black" }; 
     private string curUser { get; set; }
-    
+
 
     private bool buttonclicked { get; set; } = false;
 
@@ -132,7 +132,7 @@
         string[] UserString = authState.User.Identity.Name.Split('@');
         curUser = UserString[0].Replace('.',' ');
     }
-    
+
     private void MoveRight()
     {
         // Shift text and colors to the right
@@ -173,7 +173,8 @@
     {
         buttonclicked = true;
         if (Store.GetRides(CurrentRideModel))
-        { 
+        {
+            
         }
     }
     public class SearchForRideModel
