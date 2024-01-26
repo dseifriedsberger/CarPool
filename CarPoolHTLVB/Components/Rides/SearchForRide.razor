@@ -18,19 +18,18 @@
 
 <AuthorizeView Roles="User,Admin">
     <Authorized>
-        <h1>Search for a ride...</h1>
-        <hr class="hrStyle"/>  
-        <center>
         <div class="textfields">
             <section> 
                 <EditForm Context="editFormContext" Model="CurrentRideModel" OnValidSubmit="SearchRidesOnValidSubmit" FormName="SearchForRide">
                     <DataAnnotationsValidator />
-                    <div>
-                        <div class="form-floating mb-3">
-                            <InputText @bind-Value="CurrentRideModel.LocationFrom" class="form-control" placeholder="I drive from..." />
-                            <label for="CurrentRideModel.LocationFrom" class="form-label">I drive from...</label>
-                            <ValidationMessage For="() => CurrentRideModel.LocationFrom" class="text-danger" />
-                        </div>
+        <h1>Search for a ride...</h1>
+        <hr class="hrStyle"/>  
+        <center>
+        <div class="textfields">
+                    <div class="form-floating mb-3">
+                        <InputText @bind-Value="CurrentRideModel.LocationFrom" class="form-control" placeholder="I drive from..." />
+                        <label for="CurrentRideModel.LocationFrom" class="form-label">I drive from...</label>
+                        <ValidationMessage For="() => CurrentRideModel.LocationFrom" class="text-danger" />
                     </div>
                     <div>
                         <div class="form-floating mb-3">
@@ -46,9 +45,10 @@
                             <ValidationMessage For="() => CurrentRideModel.DepartureTime" class="text-danger" />
                         </div>
                     </div>
-        
-                    
-                        <table class="TableStyle2">
+                        </div>
+                    </center>
+                    <center>
+                    <table class="TableStyle">
                             <tr>
                                 <th>
                                     <!-- For Smoker -->
@@ -74,13 +74,13 @@
                                 </th>
                             </tr>
                         </table>
-                    
-
+                    </center>
                     <div class="form-floating mb-3">
                         <div class="col-md-6">
                             <button type="submit" class="button">Search For Rides</button>
                         </div>
                     </div>
+
                 </EditForm>
             </section>
         </div> 
@@ -93,15 +93,18 @@
                 <div class="container">
                     <button class="switch-button" @onclick="MoveLeft">⇚</button>
                         <div class="text-container-small" style="color: @textColors[0]">
+                            <div style="height:50px"></div>
                             <pre>@texts[0]</pre>
                         </div>
                         <div class="text-container-large" style="color: @textColors[1]">
+                        <div style="height:100px"></div>
                             <pre>@texts[1]</pre>
                         <button class="request-button">
                             Request a Ride
                         </button>
                     </div>
                         <div class="text-container-small" style="color: @textColors[2]">
+                            <div style="height:50px"></div>
                             <pre>@texts[2]</pre>
                         </div>
                     <button class="switch-button" @onclick="MoveRight">⇛</button>
@@ -129,8 +132,10 @@
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthService.GetAuthenticationStateAsync();
-        string[] UserString = authState.User.Identity.Name.Split('@');
-        curUser = UserString[0].Replace('.',' ');
+        string[] userString = authState.User.Identity.Name.Split("@");
+        curUser = userString[0].Replace('.',' ').ToString();
+
+
     }
 
     private void MoveRight()

@@ -11,8 +11,8 @@
 @inject ApplicationUser User;
 @inject IdentityRedirectManager RedirectManager
 @inject NavigationManager NaviManager;
-@attribute [Authorize]
-
+@attribute [Authorize] 
+ 
 
 <PageTitle>Offer a Ride</PageTitle>
 
@@ -169,9 +169,9 @@
 
 	public bool Smoker { get; set; } = false;
 
-	public bool IsFree { get; set; } = true;
+    public bool IsFree { get; set; } = true; 
 
-	private RideModel CurrentRideModel = new RideModel();
+    private OfferRideModel CurrentRideModel = new OfferRideModel();
 
 	private void TryStoreRideOnValidSubmit()
 	{
@@ -181,12 +181,12 @@
 		if (!IsFree) CurrentRideModel.IsFree = "false";
 		if (Smoker) CurrentRideModel.Smoker = "true";
 
-		//Fix: Ride.properties = null
-		if (Store.SaveRide(CurrentRideModel))
-		{
-			// Fix: wirft exception
-
-			NaviManager.NavigateTo("/Rides/SearchForRide");
+        //Fix: Ride.properties = null
+        if (Store.SaveRide(CurrentRideModel))
+        { 
+            //vl anzeigen dass funktioneirt hat und gespeichert hat was mit javascript?
+            // oder redirecten zu MyOfferedRides oder sowos
+            NaviManager.NavigateTo("/Counter");
 
 		}
 		else
@@ -194,21 +194,21 @@
 			NaviManager.NavigateTo("/Rides/OfferRide");
 		}
 
-	}
-	public class RideModel
-	{
+    }
+    public class OfferRideModel
+    {
+        public string? OffererID { get; set; }
+        [Required] 
+        public string? LocationFrom { get; set; }
 
-		public string OffererID { get; set; }
-
-		public string LocationFrom { get; set; }
-
-		public string LocationTo { get; set; }
+        [Required] 
+        public string? LocationTo { get; set; }
 
 		public DateTime DepartureTime { get; set; } = DateTime.Now;
 
-		public DateTime ArrivalTime { get; set; } = DateTime.Now;
+        public DateTime ArrivalTime { get; set; } = DateTime.Now;
 
-		public string VillagesPassed { get; set; }
+        public string? VillagesPassed { get; set; } 
 
 		public string ClassmatesCanJoin { get; set; } = "true";
 
@@ -218,9 +218,11 @@
 
 		public string Smoker { get; set; } = "false";
 
-		public string IsFree { get; set; } = "true";
-		public string Frequency { get; set; }
+        public string IsFree { get; set; } = "true"; 
+        [Required] 
+        public string? Frequency { get; set; }
 
-	}
+    }
+
 }
 
