@@ -27,7 +27,7 @@
         <EditForm Model="Input" class="RegisterStyle" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
             <h2>Create a new account.</h2>
-            <ValidationSummary class="text-danger" role="alert" />
+            
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label class="form-label" for="email">Email</label>
@@ -65,6 +65,7 @@
     public async Task RegisterUser(EditContext editContext)
     {
         var user = CreateUser();
+        await UserStore.SetNormalizedUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
         var result = await UserManager.CreateAsync(user, Input.Password);
@@ -123,16 +124,6 @@
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Firstname")]
-        public string Firstname { get; set; } = "";
-
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Lastname")]
-        public string Lastname { get; set; } = "";
-
-        [Required]
-        [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; } = "";
 
@@ -144,7 +135,7 @@
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "The Passwords do not match.")]
         public string ConfirmPassword { get; set; } = "";
     }
 }

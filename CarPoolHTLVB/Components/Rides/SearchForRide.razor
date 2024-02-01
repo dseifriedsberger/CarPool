@@ -18,10 +18,12 @@
 
 <AuthorizeView Roles="User,Admin">
     <Authorized>
-        <div class="textfields">
+        <center>
+        <div>
             <section> 
                 <EditForm Context="editFormContext" Model="CurrentRideModel" OnValidSubmit="SearchRidesOnValidSubmit" FormName="SearchForRide">
                     <DataAnnotationsValidator />
+        
         <h1>Search for a ride...</h1>
         <hr class="hrStyle"/>  
         <center>
@@ -57,7 +59,7 @@
                                             <div>
                                                 <a>Smokers are Welcome</a>
                                             </div>
-                                            <input type="checkbox" class="sc-gJwTLC ikxBAC">
+                                            <input type="checkbox" class="sc-gJwTLC ikxBAC" @bind-value="CurrentRideModel.Smoker">
                                         </div>
                                     </div>
                                 </th>
@@ -68,7 +70,7 @@
                                             <div>
                                                 <a>Is the ride free</a>
                                             </div>
-                                            <input type="checkbox" class="sc-gJwTLC ikxBAC">
+                                                <input type="checkbox" class="sc-gJwTLC ikxBAC" @bind-value="CurrentRideModel.IsFree">
                                         </div>
                                     </div>
                                 </th>
@@ -84,6 +86,7 @@
                 </EditForm>
             </section>
         </div> 
+        </center>
         @if (buttonclicked)@*(Store.Rides.Count != 0)*@
         {
             <hr class="hrStyle"/>
