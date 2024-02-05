@@ -24,20 +24,20 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     });
-    
-    //.AddIdentityCookies(options =>
-    //{
-    //    options.ApplicationCookie.Configure(options => 
-    //    {
-    //       options.Cookie.HttpOnly = true;
-    //        options.ExpireTimeSpan = TimeSpan.FromDays(14);
-    //        options.LoginPath = "/Account/Login";
-    //        options.AccessDeniedPath = "/Account/AccessDenied";
-    //        options.SlidingExpiration = true;
-    //    });
-    //}
-    //);
-    
+
+//.AddIdentityCookies(options =>
+//{
+//    options.ApplicationCookie.Configure(options =>
+//    {
+//        options.Cookie.HttpOnly = true;
+//        options.ExpireTimeSpan = TimeSpan.FromDays(14);
+//        options.LoginPath = "/Account/Login";
+//        options.AccessDeniedPath = "/Account/AccessDenied";
+//        options.SlidingExpiration = true;
+//    });
+//}
+//);
+
 var connectionString = builder.Configuration.GetConnectionString("SchuleIntern") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 //builder.Services.AddScoped<RideStore>();
@@ -59,7 +59,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddSignInManager()
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>();
-
+ 
 
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();

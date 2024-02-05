@@ -4,18 +4,20 @@ using MySqlConnector;
 using Dapper;
 using System.Configuration;
 using System.Security.Cryptography.Xml;
+using System.Data;
 
 namespace CarPoolHTLVB.Components
 {
     
     public class RideStore
     {
-        public List<OfferRideModel> Rides = new();
+        public List<OfferRideModel> Rides;
         private string ConnString { get; set; }
         public RideStore(string connStrg)
         {
             ConnString = connStrg.Trim();
         }
+        
         private int GetLastRideID()
         { 
             using MySqlConnection connection = new(ConnString);
@@ -23,7 +25,7 @@ namespace CarPoolHTLVB.Components
             try
             {
                 connection.Open();
-                string sql = "SELECT Min(rideid) AS 'rideid' FROM rides";
+                string sql = "SELECT Max(rideid) AS 'rideid' FROM rides";
                 MySqlCommand cmd = new(sql, connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -40,13 +42,14 @@ namespace CarPoolHTLVB.Components
         {
             int newRideId = GetLastRideID() + 10;
             if(newRideId == 9) { newRideId = 10; }
-            string sql = $"INSERT INTO rides VALUES('{newRideId}','{model.OffererID}', '{model.LocationFrom}', '{model.LocationTo}','{model.DepartureTime}','{model.ArrivalTime}','{model.VillagesPassed}', '{model.ClassmatesCanJoin}','{model.TeachersCanJoin}', {model.Seats}, '{model.Smoker}','{model.IsFree}','{model.Frequency}')";
+            model.RideId = newRideId;
+            string sql = $"INSERT INTO rides (RideId, OffererId, LocationFrom, LocationTo, DepartureTime, ArrivalTime, VillagesPassed, ClassmatesCanJoin, TeachersCanJoin, FreeSeats, Smoker,IsFree,Frequency) VALUES('{model.RideId}','{model.OffererID}', '{model.LocationFrom}', '{model.LocationTo}','{model.DepartureTime}','{model.ArrivalTime}','{model.VillagesPassed}', '{model.ClassmatesCanJoin}','{model.TeachersCanJoin}', {model.FreeSeats}, '{model.Smoker}','{model.IsFree}','{model.Frequency}')";
          
             Console.WriteLine($"tried this cmd:{sql}");
             MySqlConnection connection = new MySqlConnection(ConnString);
             var entry = new
             {
-                TimeStamp = DateTime.UtcNow,
+                //TimeStamp = DateTime.UtcNow,
                 model.OffererID,
                 model.LocationFrom,
                 model.LocationTo,
@@ -55,7 +58,7 @@ namespace CarPoolHTLVB.Components
                 model.VillagesPassed,
                 model.ClassmatesCanJoin,
                 model.TeachersCanJoin,
-                model.Seats,
+                model.FreeSeats,
                 model.Smoker,
                 model.IsFree,
                 model.Frequency
@@ -77,6 +80,7 @@ namespace CarPoolHTLVB.Components
         }
         public bool GetRides(SearchForRideModel model)
         {
+            //model.
             using MySqlConnection connection = new(ConnString);
             string sql = "SELECT id, arrivaltime, ... FROM rides WHERE ... ORDER BY...";
             try
@@ -85,6 +89,22 @@ namespace CarPoolHTLVB.Components
                 return true;
             }
             catch(Exception ex) { Console.WriteLine(ex.Message); return false; }
+        }
+        public bool GetRides2(SearchForRideModel model)
+        {
+			using (MySqlConnection connection = new (ConnString))
+			{
+				connection.Open();
+
+				Rides = (List<OfferRideModel>)connection.Query<OfferRideModel>("FindRide",
+					new { locationFrom = "Pfaffing", locationTo = "Vöcklabruck" },
+					commandType: CommandType.StoredProcedure); 
+			}
+
+
+			return true;
+
+
         }
     }
 }

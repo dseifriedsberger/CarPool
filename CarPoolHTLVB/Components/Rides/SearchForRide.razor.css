@@ -1,43 +1,60 @@
-﻿.container {
+﻿@font-face {
+    font-family: 'kanit-light';
+    src: url('fonts/kanit-light.ttf') format('truetype');
+}
+
+.container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 100vh;  
-    border-radius: 15px; /* Adjust the radius as needed */
+    height: 100vh;
+    border-radius: 12px; /* Adjust the radius as needed */
     padding: 20px;
     color: #ffffff;
+    transform: translateY(-13%);
 }
 
 .text-container {
+    align-items: center;
     margin: 10px;
     padding: 20px;
     border: 2px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .text-container-small {
     font-size: 16px;
     line-height: 1;
+    height: 20%;
+    width: 80%;
+    margin-right: 20px;
+    margin-left: 20px;
     border-radius: 15px;
     background-color: #ffffff;
+}
+
+    .text-container-small pre {
+        font-family: kanit-light;
+        transform: translateY(+150%);
+        overflow: hidden;
+    }
+
+.text-container-large pre {
+    font-family: kanit-light;
+    transform: translateY(+100%)
 }
 
 .text-container-large {
     font-size: 26px;
     line-height: 2;
+    height: 70%;
+    width: 120%;
     border-radius: 15px;
     background-color: #ffffff;
 }
 
-.request-button {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+
 .rounded-box {
     width: 200px;
     height: 100px;
@@ -45,4 +62,51 @@
     border-radius: 15px; /* Adjust the radius as needed */
     padding: 20px;
     color: #ffffff;
+}
+
+.switch-button {
+    color: snow;
+    font-size: 30px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+    .switch-button:after {
+        position: relative;
+        animation: myfirst 5s 2;
+        animation-direction: alternate;
+    }
+
+.request-button {
+    border: none;
+    color: #fff;
+    background-color: #015d00;
+    background-image: linear-gradient(314deg, #006400 0%, #228B22 74%);
+    border-radius: 12px;
+    background-size: 100% auto;
+    font-family: inherit;
+    font-size: 17px;
+    padding: 0.6em 1.5em;
+    transform: translateY(+270%);
+}
+
+    .request-button:hover {
+        background-position: right center;
+        background-size: 100% auto;
+        -webkit-animation: pulse 2s infinite;
+        animation: pulse512 1.5s infinite;
+    }
+
+@keyframes pulse512 {
+    0% {
+        box-shadow: 0 0 0 0 #355E3B;
+    }
+
+    70% {
+        box-shadow: 0 0 0 5px rgb(218 103 68 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
 }

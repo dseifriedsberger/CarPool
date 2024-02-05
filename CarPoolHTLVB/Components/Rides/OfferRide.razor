@@ -5,11 +5,13 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
 @using CarPoolHTLVB.Components.Account; 
-@using Microsoft.AspNetCore.Identity.EntityFrameworkCore
-@rendermode InteractiveServer
-@inject RideStore Store
-@inject ApplicationUser User;
-@inject IdentityRedirectManager RedirectManager
+@using Microsoft.AspNetCore.Identity.EntityFrameworkCore 
+@using Microsoft.AspNetCore.WebUtilities
+@using System.Security.Claims
+ 
+@rendermode InteractiveServer 
+@inject RideStore Store 
+@inject AuthenticationStateProvider AuthenticationStateProvider   
 @inject NavigationManager NaviManager;
 @attribute [Authorize] 
  
@@ -24,7 +26,7 @@
 					<DataAnnotationsValidator />
 					<h1>Prepare your ride...</h1>
 					<hr class="hrStyle" />
-					<ValidationSummary class="text-danger" role="alert" />
+					@*<ValidationSummary class="text-danger" role="alert" />*@
 					<center>
 						<div class="textfields">
 							<!-- For ClassmatesCanJoin -->
@@ -47,7 +49,7 @@
 							<!-- For DepartureTime -->
 							<div>
 								<div class="form-floating mb-3">
-									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="CurrentRideModel.DepartureTime" class="form-control" placeholder="Departure time" />
+									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="DepartureTime" class="form-control" placeholder="Departure time" />
 									<label class="form-label">to this destination...</label>
 									<ValidationMessage For="() => CurrentRideModel.DepartureTime" class="text-danger" />
 								</div>
@@ -56,25 +58,26 @@
 							<!-- For ArrivalTime -->
 							<div>
 								<div class="form-floating mb-3">
-									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="CurrentRideModel.ArrivalTime" class="form-control" placeholder="Arrival time" />
+									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="ArrivalTime" class="form-control" placeholder="Arrival time" />
 									<label>Arrival time</label>
 									<ValidationMessage For="() => CurrentRideModel.ArrivalTime" class="text-danger" />
 								</div>
 							</div>
+							
 							<!-- For VillagesPassed -->
 							<div>
 								<div class="form-floating mb-3">
-									<InputText @bind-Value="CurrentRideModel.VillagesPassed" class="form-control" placeholder="Enter villages that get passed:" />
-									<label class="form-label">Enter villages that get passed:</label>
-									<ValidationMessage For="() => CurrentRideModel.VillagesPassed" class="text-danger" />
+									<InputText @bind-Value="VillagesPassed" class="form-control" placeholder="Enter villages that get passed: [,]" />
+									<label class="form-label">Enter villages that get passed: [,]</label>
+									<ValidationMessage For="() => VillagesPassed" class="text-danger" />
 								</div>
 							</div>
-							<!-- For Seats -->
+ 							<!-- For Seats -->
 							<div>
 								<div class="form-floating mb-3">
-									<InputNumber @bind-Value="CurrentRideModel.Seats" class="form-control" placeholder="How many seats" />
+									<InputNumber @bind-Value="CurrentRideModel.FreeSeats" class="form-control" placeholder="How many seats" />
 									<label class="form-label">How many seats</label>
-									<ValidationMessage For="() => CurrentRideModel.Seats" class="text-danger" />
+									<ValidationMessage For="() => CurrentRideModel.FreeSeats" class="text-danger" />
 								</div>
 								<!-- For Frequency -->
 								<div>
@@ -102,7 +105,7 @@
 										<div>
 											<a>Classmates are welcome</a>
 										</div>
-										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+											<input type="checkbox" class="sc-gJwTLC ikxBAC" @bind="ClassmatesCanJoin">
 									</div>
 								</div>
 							</th>
@@ -113,7 +116,7 @@
 										<div>
 											<a>Teachers are welcome</a>
 										</div>
-										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+											<input type="checkbox" class="sc-gJwTLC ikxBAC" @bind="TeachersCanJoin">
 									</div>
 								</div>
 							</th>
@@ -130,7 +133,7 @@
 										<div>
 											<a>Smokers are Welcome</a>
 										</div>
-										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+										<input type="checkbox" class="sc-gJwTLC ikxBAC" @bind="Smoker">
 									</div>
 								</div>
 							</th>
@@ -141,13 +144,14 @@
 										<div>
 											<a>Is the ride free</a>
 										</div>
-										<input type="checkbox" class="sc-gJwTLC ikxBAC">
+											<input type="checkbox" class="sc-gJwTLC ikxBAC" @bind="IsFree">
 									</div>
 								</div>
 							</th>
 						</tr>
 					</table>
 					</center>
+
 					<div class="form-floating mb-3">
 						<div class="form-floating mb-3">
 							<button type="submit" class="button" role="button">Offer Ride</button>
@@ -163,64 +167,84 @@
 </AuthorizeView>
 
 @code {
+	private DateTime DepartureTime = DateTime.Now;
+	private DateTime ArrivalTime = DateTime.Now;
 	private string? errorMessage;
+	[Required]
+	public string? VillagesPassed { get; set; }
 	private bool ClassmatesCanJoin { get; set; } = true;
 	public bool TeachersCanJoin { get; set; } = true;
 
 	public bool Smoker { get; set; } = false;
 
-    public bool IsFree { get; set; } = true; 
+	public bool IsFree { get; set; } = true; 
 
-    private OfferRideModel CurrentRideModel = new OfferRideModel();
+	private string? CurUserId { get; set; }
+	private OfferRideModel CurrentRideModel = new OfferRideModel();   
 
-	private void TryStoreRideOnValidSubmit()
+	protected override async Task OnInitializedAsync()
 	{
-		CurrentRideModel.OffererID = User.Id;
+		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+		var user = authState.User;
+		CurUserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+	}
+	private async Task TryStoreRideOnValidSubmit()
+	{
+		CurrentRideModel.DepartureTime = DepartureTime.ToString();
+		CurrentRideModel.ArrivalTime = ArrivalTime.ToString();
+		CurrentRideModel.OffererID = CurUserId;
+		CurrentRideModel.VillagesPassed += CurrentRideModel.LocationFrom+';';
+		if(VillagesPassed != null)
+		{
+			CurrentRideModel.VillagesPassed += VillagesPassed.Replace(',', ';') + ';';
+		}
+		CurrentRideModel.VillagesPassed += CurrentRideModel.LocationTo;
 		if (!ClassmatesCanJoin) CurrentRideModel.ClassmatesCanJoin = "false";
 		if (!TeachersCanJoin) CurrentRideModel.TeachersCanJoin = "false";
 		if (!IsFree) CurrentRideModel.IsFree = "false";
 		if (Smoker) CurrentRideModel.Smoker = "true";
-
-        //Fix: Ride.properties = null
-        if (Store.SaveRide(CurrentRideModel))
-        { 
-            //vl anzeigen dass funktioneirt hat und gespeichert hat was mit javascript?
-            // oder redirecten zu MyOfferedRides oder sowos
-            NaviManager.NavigateTo("/Counter");
+		 
+		if (Store.SaveRide(CurrentRideModel))
+		{ 
+		//vl anzeigen dass funktiniert hat und gespeichert hat was mit javascript?
+			// oder redirecten zu MyOfferedRides oder sowos
+			NaviManager.NavigateTo("/Pages/RideOfferSuccess");
 
 		}
 		else
 		{
-			NaviManager.NavigateTo("/Weahter");
+			NaviManager.NavigateTo("/Rides/OfferRide");
 		}
 
-    }
-    public class OfferRideModel
-    {
-        public string? OffererID { get; set; }
-        [Required] 
-        public string? LocationFrom { get; set; }
+	}
+	public class OfferRideModel
+	{
+		public int RideId { get; set; }
+		public string? OffererID { get; set; }
+		[Required] 
+		public string? LocationFrom { get; set; }
 
-        [Required] 
-        public string? LocationTo { get; set; }
+		[Required] 
+		public string? LocationTo { get; set; }
 
-		public DateTime DepartureTime { get; set; } = DateTime.Now;
+		public string DepartureTime { get; set; } 
 
-        public DateTime ArrivalTime { get; set; } = DateTime.Now;
+		public string ArrivalTime { get; set; } 
 
-        public string? VillagesPassed { get; set; } 
+		public string? VillagesPassed { get; set; } 
 
-		public string ClassmatesCanJoin { get; set; } = "true";
+		public string ClassmatesCanJoin { get; set; } = "true"; 
 
 		public string TeachersCanJoin { get; set; } = "true";
 
-		public int Seats { get; set; }
+		public int FreeSeats { get; set; } = 1;
 
 		public string Smoker { get; set; } = "false";
 
-        public string IsFree { get; set; } = "true"; 
-        [Required] 
-        public string? Frequency { get; set; }
+        public string IsFree { get; set; } = "true";   
+		[Required]
+        public string Frequency { get; set; }
 
     }
 
