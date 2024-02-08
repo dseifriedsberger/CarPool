@@ -4,9 +4,11 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
 @using CarPoolHTLVB.Data
+@using System.Security.Claims
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IdentityRedirectManager RedirectManager
+@inject AuthenticationStateProvider AuthProvider
 
 <PageTitle>Confirm email</PageTitle>
 
@@ -19,20 +21,25 @@
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
-    [SupplyParameterFromQuery]
-    private string? UserId { get; set; }
+
+    private string? UserId { get; set; } 
+
 
     [SupplyParameterFromQuery]
     private string? Code { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        UserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
         if (UserId is null || Code is null)
         {
             RedirectManager.RedirectTo("");
         }
 
-        var user = await UserManager.FindByIdAsync(UserId);
+        user = await UserManager.FindByIdAsync(UserId);
         if (user is null)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -40,6 +47,7 @@
         }
         else
         {
+            
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
             var result = await UserManager.ConfirmEmailAsync(user, code);
             statusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
