@@ -5,6 +5,7 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
+@using CarPoolHTLVB.EmailService
 @using CarPoolHTLVB.Data
 
 @inject UserManager<ApplicationUser> UserManager
@@ -60,6 +61,8 @@
     private string? email;
     private bool isEmailConfirmed;
 
+    private EmailService MailService = new EmailService();
+
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
@@ -90,7 +93,7 @@
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmailChange").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["email"] = Input.NewEmail, ["code"] = code });
 
-        await EmailSender.SendConfirmationLinkAsync(user, Input.NewEmail, HtmlEncoder.Default.Encode(callbackUrl));
+        await MailService.SendConfirmationEmailAsync(Input.NewEmail, callbackUrl);
 
         message = "Confirmation link to change email sent. Please check your email.";
     }
