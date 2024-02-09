@@ -80,10 +80,10 @@
 								<div>
 									<div class="form-floating mb-3">
 										<select id="frequency" @bind="CurrentRideModel.Frequency" class="form-select">
-											<option value="Daily">Daily</option>
-											<option value="Weekly">Weekly</option>
-											<option value="Monthly">Monthly</option>
-											<option value="OnlyOnce">Only Once</option>
+											<option class="optionStyle" value="Daily">Daily</option>
+											<option class="optionStyle" value="Weekly">Weekly</option>
+											<option class="optionStyle" value="Monthly">Monthly</option>
+											<option class="optionStyle" value="OnlyOnce">Only Once</option>
 										</select>
 										<label class="form-label">Choose the frequency of your ride</label>
 										<ValidationMessage For="() => CurrentRideModel.Frequency" class="text-danger" />

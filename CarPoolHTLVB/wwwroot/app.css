@@ -108,6 +108,9 @@ LoginStyle btn .btn-links a{
 .textfields {
     width: 600px;
 }
+.optionStyle {
+    font-family: kanit-light
+}
 
 .RegisterStyle form-label {
     color: black;

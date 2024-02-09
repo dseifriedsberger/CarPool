@@ -21,25 +21,20 @@
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
-
-    private string? UserId { get; set; } 
-
+    [SupplyParameterFromQuery]
+    private string? UserId { get; set; }
 
     [SupplyParameterFromQuery]
     private string? Code { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var authState = await AuthProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-        UserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-
         if (UserId is null || Code is null)
         {
             RedirectManager.RedirectTo("");
         }
 
-        user = await UserManager.FindByIdAsync(UserId);
+        var user = await UserManager.FindByIdAsync(UserId);
         if (user is null)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -47,7 +42,6 @@
         }
         else
         {
-            
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
             var result = await UserManager.ConfirmEmailAsync(user, code);
             statusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
