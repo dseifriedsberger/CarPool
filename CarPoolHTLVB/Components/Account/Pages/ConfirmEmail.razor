@@ -4,9 +4,11 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
 @using CarPoolHTLVB.Data
+@using System.Security.Claims
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IdentityRedirectManager RedirectManager
+@inject AuthenticationStateProvider AuthProvider
 
 <PageTitle>Confirm email</PageTitle>
 

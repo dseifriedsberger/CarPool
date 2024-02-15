@@ -49,8 +49,8 @@
 							<!-- For DepartureTime -->
 							<div>
 								<div class="form-floating mb-3">
-									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="DepartureTime" class="form-control" placeholder="Departure time" />
-									<label class="form-label">to this destination...</label>
+									<InputDate Type="InputDateType.DateTimeLocal" @bind-Value="CurrentRideModel.DepartureTime" class="form-control" placeholder="Departure time" />
+									<label class="form-label">DepartureTime</label>
 									<ValidationMessage For="() => CurrentRideModel.DepartureTime" class="text-danger" />
 								</div>
 							</div>
@@ -83,10 +83,10 @@
 								<div>
 									<div class="form-floating mb-3">
 										<select id="frequency" @bind="CurrentRideModel.Frequency" class="form-select">
-											<option value="Daily">Daily</option>
-											<option value="Weekly">Weekly</option>
-											<option value="Monthly">Monthly</option>
-											<option value="OnlyOnce">Only Once</option>
+											<option class="optionStyle" value="Daily">Daily</option>
+											<option class="optionStyle" value="Weekly">Weekly</option>
+											<option class="optionStyle" value="Monthly">Monthly</option>
+											<option class="optionStyle" value="OnlyOnce">Only Once</option>
 										</select>
 										<label class="form-label">Choose the frequency of your ride</label>
 										<ValidationMessage For="() => CurrentRideModel.Frequency" class="text-danger" />
@@ -214,7 +214,7 @@
 		}
 		else
 		{
-			NaviManager.NavigateTo("/Pages/Error");
+			NaviManager.NavigateTo("/Rides/OfferRide");
 		}
 
 	}

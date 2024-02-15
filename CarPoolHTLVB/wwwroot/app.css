@@ -36,35 +36,34 @@ a:hover{
     color: snow;
 }
 .button {
-    background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
-    border-radius: 8px;
-    border-style: none;
-    box-sizing: border-box;
-    color: #FFFFFF;
-    cursor: pointer;
-    flex-shrink: 0;
-    font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    height: 2.5rem;
-    padding: 0 1.6rem;
+    position: relative;
+    display: inline-block;
+    margin: 15px;
+    padding: 15px 30px;
     text-align: center;
-    text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
-    transition: all .5s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    margin: 10px;
+    line-height: 1;
+    height: 50px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: snow;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #00853E;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #00853E;
 }
-.button:hover {
-    box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
-    transition-duration: .1s;
-}
-@media (min-width: 768px) {
-    .button {
-        padding: 0 2.6rem;
+
+    .button:hover {
+        color: white;
+        box-shadow: inset 0 -100px 0 0 #00853E;
     }
-}
+
+    .button:active {
+        transform: scale(0.9);
+    }
+
 .button-danger {
     background: #FF4742;
     background-image: url('images/closed.png');
@@ -108,6 +107,9 @@ LoginStyle btn .btn-links a{
 }
 .textfields {
     width: 600px;
+}
+.optionStyle {
+    font-family: kanit-light
 }
 
 .RegisterStyle form-label {
@@ -193,7 +195,7 @@ AuthorizeView {
     cursor: default;
 }
 .checkbox-wrapper-2 .ikxBAC:hover {
-    background-color: #c9cbcd;
+    background-color: seagreen;
     transition-duration: 0s;
 }
 .checkbox-wrapper-2 .ikxBAC:checked {
@@ -287,8 +289,4 @@ li {
 navbar {
     text-align:center;
 }
-
-
-
-
 

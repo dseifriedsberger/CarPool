@@ -1,2 +1,9 @@
-﻿body {
+﻿@font-face {
+    font-family: 'kanit-light';
+    src: url('fonts/kanit-light.ttf') format('truetype');
+}
+
+
+.optionStyle {
+    font-family: kanit-light
 }
