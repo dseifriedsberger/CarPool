@@ -1,0 +1,72 @@
+﻿@using System.Security.Claims;  
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@page "/Rides/RequestedRideList"  
+@inject RideStore Store 
+@inject AuthenticationStateProvider AuthService  
+@inject UserManager<CarPoolHTLVB.Data.ApplicationUser> UserManager
+@attribute [Authorize]
+<AuthorizeView>
+    <Authorized>  
+        @if (RequestedRides != null)
+        {
+            <h3>Your requested rides:</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Location From</th>
+                        <th>Location To</th>
+                        <th>Departure Time</th>
+                        <th>Offered by</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    @foreach (Ride ride in RequestedRides)
+                    {
+                        <tr>
+                            <td>@ride.LocationFrom</td>
+                            <td>@ride.LocationTo</td>
+                            <td>@ride.DepartureTime</td>
+                            <td>@ride.OffererName</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            <p>No rides found...</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You must be logged in to offer a ride.</p>
+    </NotAuthorized>
+</AuthorizeView>
+@code {
+    private List<Ride> RequestedRides { get; set; }
+    private AuthenticationState? AuthState { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        AuthState = await AuthService.GetAuthenticationStateAsync();
+        RequestedRides = Store.CreateList(AuthState);
+        SetOffererNames();
+    }
+    public async Task SetOffererNames()
+    { 
+        foreach(Ride r in RequestedRides)
+        {
+            var user = await UserManager.FindByIdAsync(r.OffererId);
+            string[] userString = AuthState.User.Identity.Name.Split("@");
+            r.OffererName = userString[0].Replace('.', ' ').ToString(); 
+        }
+    }
+    public class Ride
+    {
+        public string LocationFrom { get; set; }   
+        public string LocationTo { get; set; }   
+        public string DepartureTime { get; set; }   
+        public string OffererId { get; set; }   
+        public string OffererName { get; set; }   
+    }
+}

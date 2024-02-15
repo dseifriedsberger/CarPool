@@ -7,14 +7,14 @@
 @using Microsoft.AspNetCore.WebUtilities
 @using CarPoolHTLVB.Data
 
-@inject UserManager<ApplicationUser> UserManager
+@inject UserManager<ApplicationUser> UserManager 
 @inject IUserStore<ApplicationUser> UserStore
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject ILogger<Register> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
-
+@inject RoleManager<IdentityRole> RoleManager
 <PageTitle>Register</PageTitle>
 <div class="Headers">
     <h1>Register</h1>
@@ -64,8 +64,20 @@
 
     public async Task RegisterUser(EditContext editContext)
     {
+
         var user = CreateUser();
-        
+        var roleName = "User";
+        if (user != null)
+        {
+            var roleExists = await RoleManager.RoleExistsAsync("User");
+            if (!roleExists)
+            {
+                await RoleManager.CreateAsync(new IdentityRole("User"));
+            }
+
+            await UserManager.AddToRoleAsync(user, "User"); 
+        }
+
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -89,6 +101,8 @@
 
         await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
 
+
+
         if (UserManager.Options.SignIn.RequireConfirmedAccount)
         {
             RedirectManager.RedirectTo(
@@ -97,9 +111,13 @@
         }
 
         await SignInManager.SignInAsync(user, isPersistent: false);
-        RedirectManager.RedirectTo(ReturnUrl);
-    }
 
+       
+
+
+        RedirectManager.RedirectTo(ReturnUrl);
+     
+    }
     private ApplicationUser CreateUser()
     {
         try

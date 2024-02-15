@@ -25,18 +25,6 @@ builder.Services.AddAuthentication(options =>
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     });
 
-//.AddIdentityCookies(options =>
-//{
-//    options.ApplicationCookie.Configure(options =>
-//    {
-//        options.Cookie.HttpOnly = true;
-//        options.ExpireTimeSpan = TimeSpan.FromDays(14);
-//        options.LoginPath = "/Account/Login";
-//        options.AccessDeniedPath = "/Account/AccessDenied";
-//        options.SlidingExpiration = true;
-//    });
-//}
-//);
 
 var connectionString = builder.Configuration.GetConnectionString("SchuleIntern") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -60,7 +48,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>();
  
-
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
